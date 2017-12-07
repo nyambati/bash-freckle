@@ -1,0 +1,3 @@
+# freckle
+
+Freckle Bash scripts
