@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+function logFreckleHours() {
+	local CURRENT_DATE="$1"
+	curl 'https://andela.letsfreckle.com/time/entries'\
+	 -H 'origin: https://andela.letsfreckle.com' \
+	 -H 'accept-encoding: gzip, deflate, br' \
+	 -H 'x-csrf-token: xpOrTWefAH6y8D5vdlztKO8FeA+9SZqzwkFbd1iwsBw=' \
+	 -H 'accept-language: en-US,en;q=0.9,la;q=0.8' \
+	 -H 'x-requested-with: XMLHttpRequest' \
+	 -H 'x-prototype-version: 1.7.1' \
+	 -H "${FRECKLE_COOKIE_STRINGS}"\
+	 -H 'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36' \
+	 -H 'content-type: application/x-www-form-urlencoded; charset=UTF-8' \
+	 -H 'accept: text/javascript, text/html, application/xml, text/xml, */*'\
+	 -H 'referer: https://andela.letsfreckle.com/time/dashboard/recent'\
+	 -H 'authority: andela.letsfreckle.com' \
+	 --data "entry%5Bdate%5D=${CURRENT_DATE}&entry%5Bminutes%5D=8%3A00&entry%5Bproject%5D=New+York+Academy+of+Sciences&entry%5Bdescription%5D=%23Launchpad+"\
+	 --compressed
+}
+
+function findCurrentDate() {
+	local DATE="${YEAR}-${MONTH}-$1"
+	echo $DATE
+}
+
+function isWeekend() {
+	local DAYS=(Monday Tuesday Wednesday Thursday  Friday)
+	local DAY=$(date -j -f '%Y-%m-%d' "${1}" +'%A')
+	local IS_WEEKEND=$(echo ${DAYS[@]} | grep -o "${DAY}")
+	echo $IS_WEEKEND
+}
+
+
+

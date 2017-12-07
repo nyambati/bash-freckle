@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+set -o pipefail
+
+DIRECTORY="$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)"
+ROOT_DIRECRORY=$(dirname $DIRECTORY)
+
+source $ROOT_DIRECRORY/lib/freckle
+source $ROOT_DIRECRORY/.env
+
+# Ensure freckle cookie exists
+[ -z "$FRECKLE_COOKIE_STRINGS" ] && { echo "You are missing freckle cookie"; exit 1;}
+
+read -r -p "What Month are you logging hours for? : " month
+[ -z "${month//[0-9]}" ] && [ -n "$month" ] || { echo "Sorry integers only"; exit 1; }
+read -r -p "Starting date? : " startDate
+[ -z "${startDate//[0-9]}" ] && [ -n "$startDate" ] || { echo "Sorry integers only"; exit 1; }
+read -r -p "End date? : " endDate
+[ -z "${endDate//[0-9]}" ] && [ -n "$endDate" ] || { echo "Sorry integers only"; exit 1; }
+
+currentYear=`date +'%Y'`
+MONTH=$month
+YEAR=$currentYear
+START_DATE=$startDate
+END_DATE=$endDate
+
+for current_date in $(seq $START_DATE $END_DATE)
+do
+	DATE=$(findCurrentDate $current_date)
+
+	if [ ! -z "$(isWeekend $DATE)" ]
+	then
+		logFreckleHours $DATE
+	fi
+
+done
