@@ -14,8 +14,9 @@ function logFreckleHours() {
 	 -H 'accept: text/javascript, text/html, application/xml, text/xml, */*'\
 	 -H 'referer: https://andela.letsfreckle.com/time/dashboard/recent'\
 	 -H 'authority: andela.letsfreckle.com' \
-	 --data "entry%5Bdate%5D=${CURRENT_DATE}&entry%5Bminutes%5D=8%3A00&entry%5Bproject%5D=New+York+Academy+of+Sciences&entry%5Bdescription%5D=%23Launchpad+"\
-	 --compressed
+	 --data "entry%5Bdate%5D=${CURRENT_DATE}&entry%5Bminutes%5D=${HOURS}%3A00&entry%5Bproject%5D=New+York+Academy+of+Sciences&entry%5Bdescription%5D=%23Launchpad+"\
+	 --compressed --insecure
+
 }
 
 function findCurrentDate() {
